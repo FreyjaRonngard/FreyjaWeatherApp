@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freyja's Weather App</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="src/style.css" rel="stylesheet" >
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    </head >
+</head>
+<body>
+<div class="container">
+    
+<div class="card">
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                <h1>
+                    ✨ Freyja's Weather App
+                </h1>
+                </div>
+            </div>
+            <br/>
+           
+            <form class="form-inline form-group searchWeather" id="search-weather">
+                <div class="row">
+                <div class="col-4">
+                    <input 
+                        type="search" 
+                        placeholder="Search Location" 
+                        class="form-control" 
+                        id="locationInput"
+                        autofocus />
+                </div>
+                <div class=" col-4">
+                    <input 
+                    type="datetime-local" 
+                    placeholder="Pick Time and Day" 
+                    class="form-control"
+                    id="dateInput" 
+                    autofocus />
+                </div>
+                <div class="col-2">
+                    <input 
+                    type="submit" 
+                    value="Submit" 
+                    class="btn btn-info shadow" 
+                    id="buttonSubmit"/>
+                </div>
+                <div class="col-2">
+                    <input 
+                    type="submit" 
+                    value="Near Me" 
+                    class="btn btn-primary shadow" 
+                    id="buttonNearMe"/>
+                </div>
+                </div>
+            </form>
+            
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="city" id="city"> 
+                    Melbourne
+                </h2>
+            </div>
+            
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-5">
+                <h2>
+                <img src="media/cloudysun-icon.png" alt="cloudysun" class="weather-icon">
+                 <span class="temp" id="temp">17</span>
+                 <span href="#" class ="changeMetric" id="celcius-link">°C </span>| 
+                 <span href="#" class ="changeMetric"id="fahrenheit-link"> °F </span>
+                </h2>
+            </div>
+            <div class="col-5">
+                <strong class="bold-temperature-large" id="date">8 April 2023</strong>
+                <br> <span id="day-time">
+                Sat 13:30
+                </span> 
+            </div>
+            <div class="col-2 card-body card-group">
+                <button type="button" class="btn btn-light boarder" id="alertButton">
+                   📢 Alert
+                </button> 
+            </div>
+        </div>
+        <br/>
+<p class="detailed-info">
+<div class="row">
+    <div class="col-2">
+        <strong class="bold-temperature-large" id="maxTemp">18°C </strong>
+        <br />
+        Max
+    </div>
+    <div class="col-2">
+        <strong class="bold-temperature-large" id="minTemp" >9°C</strong>
+        <br/>
+        Overnight Min
+    </div>
+</div>
+<br/>
+<div class="row">
+<div class="col-12">
+    Visibility: <strong class="bold-temperature" id="current-visibility">15 %</strong>
+</div>
+<div class="col-12">
+    Humidity: <strong class="bold-temperature" id="current-humidity">62 %</strong>
+</div>
+<div class="col-12">
+    Wind Speed: <strong class="bold-temperature" id="current-windSpeed">4</strong>
+</div>
+</div>
+</p>
+<br/>
+<div class="row">
+    <div class="col-2">
+        <div class="card-group">
+            <div class="card card-weather card-body">
+                
+                    <h5 class="card-title">
+                        <img src="media/cloudysun-icon.png" alt="">
+                        <br/>
+                        Sat
+                    </h5>
+                    <p class="card-text">
+                        <strong class="bold-temperature">17°C </strong>|  9°C
+                    </p>
+                </div>
+            </div>
+    </div>
+    <div class="col-2">
+                <div class="card-group">
+                    <div class="card card-weather card-body">
+                        
+                            <h5 class="card-title">
+                                <img src="media/cloudysun-icon.png" alt="">
+                                <br />
+                                Sat
+                            </h5>
+                            <p class="card-text">
+                                <strong class="bold-temperature">17°C </strong>| 9°C
+                            </p>
+                        </div>
+                    </div>
+    </div>
+    <div class="col-2">
+                <div class="card-group">
+            <div class="card card-weather card-body">
+                
+                    <h5 class="card-title">
+                        <img src="media/cloudysun-icon.png" alt="">
+                        <br/>
+                        Sat
+                    </h5>
+                    <p class="card-text">
+                        <strong class="bold-temperature">17°C </strong>| 9°C
+                    </p>
+                </div>
+            </div>
+    </div>
+    <div class="col-2">
+                <div class="card-group">
+            <div class="card card-weather card-body">
+                
+                    <h5 class="card-title">
+                        <img src="media/cloudysun-icon.png" alt="">
+                        <br/>
+                        Sat
+                    </h5>
+                    <p class="card-text">
+                        <strong class="bold-temperature">17°C </strong>| 9°C
+                    </p>
+                </div>
+            </div>
+    </div>
+    <div class="col-2">
+                <div class="card-group">
+            <div class="card card-weather card-body">
+                
+                    <h5 class="card-title">
+                        <img src="media/cloudysun-icon.png" alt="">
+                        <br/>
+                        Sat
+                    </h5>
+                    <p class="card-text">
+                        <strong class="bold-temperature">17°C </strong>| 9°C
+                    </p>
+                </div>
+            </div>
+    </div>
+    <div class="col-2">
+                <div class="card-group">
+            <div class="card card-weather card-body">
+            
+                    <h5 class="card-title">
+                        <img src="media/cloudysun-icon.png" alt="">
+                        <br/>
+                        Sat
+                    </h5>
+                    <p class="card-text">
+                        <strong class="bold-temperature">17°C </strong>| 9°C
+                    </p>
+                
+            </div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous">
+</script>
+<script src="src/index.js"></script>
+</div>
+</body>
+</html>

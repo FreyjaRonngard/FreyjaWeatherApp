@@ -1,0 +1,43 @@
+body {
+padding: 40px;
+
+}
+h1 {
+font-size: 30px;
+
+}
+h2 {
+font-size: 40px;
+padding-left: 10px;
+}
+
+form {
+padding: 20px;
+}
+.btn {
+    font-weight: bold;
+}
+.weather-icon {
+height: 64px;
+}
+.detailed-info {
+    padding-left: 40px;
+}
+.card {
+    padding: 20px;
+}
+
+.col-5 {
+    padding-left: 10px;
+}
+.bold-temperature-large {
+    font-size: 25px;
+    font-weight: bold;
+}
+.bold-temperature {
+    font-weight: bold;
+}
+.changeMetric:hover {
+    color: blue;
+    cursor: pointer;
+}
