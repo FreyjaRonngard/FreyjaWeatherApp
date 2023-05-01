@@ -1,5 +1,6 @@
 body {
 padding: 40px;
+font-style: Arial,Helvetica,sans-serif;
 
 }
 h1 {
@@ -8,25 +9,39 @@ font-size: 30px;
 }
 h2 {
 font-size: 40px;
-padding-left: 10px;
+padding-left: 20px;
 }
+
 
 form {
 padding: 20px;
+}
+.temp {
+    font-size: 45px;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 0 8px 0 8px;
 }
 .btn {
     font-weight: bold;
 }
 .weather-icon {
-height: 64px;
+height: 65px;
 }
 .detailed-info {
     padding-left: 40px;
 }
-.card {
+.card{
     padding: 20px;
 }
-
+.card-body {
+    padding-bottom: 10px;
+}
+.footer {
+    margin-top: 10px;
+}
 .col-5 {
     padding-left: 10px;
 }
@@ -37,7 +52,14 @@ height: 64px;
 .bold-temperature {
     font-weight: bold;
 }
+.changeMetric{
+    font-size: 20px;
+    margin: 5px;
+    color: gray;
+}
 .changeMetric:hover {
-    color: blue;
+    color: black;
     cursor: pointer;
+    font-weight: bold;
+    
 }
