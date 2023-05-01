@@ -1,38 +1,49 @@
 
 
 let dateNow = new Date();
-let formattedDate = formatDate(dateNow);
+let formattedDate = formatDate(dateNow); // this might be obsolete
 function formatDate(date) {
- let days = [
-   "Sun",
-   "Mon",
-   "Tue",
-   "Wed",
-   "Thu",
-   "Fri",
-   "Sat"
- ];
-
- let months = [
-   "January",
-   "February",
-   "March",
-   "April",
-   "May",
-   "June",
-   "July",
-   "August",
-   "September",
-   "October",
-   "November",
-   "December"
- ];
+  
+    let months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
 
     let currentYear = date.getFullYear();
-    let currentDay = days[date.getDay()];
     let currentMonth = months[date.getMonth()];
     let currentDate = date.getDate();
-    let currentHour = date.getHours();
+   
+    return `${currentDate} ${currentMonth}, ${currentYear}`;
+}
+
+let date = document.querySelector("#date");
+
+
+
+let formattedDayTime = formatDayTime(dateNow); // this might be obsolete
+function formatDayTime(date) {
+    let days = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+
+    let currentDay = days[date.getDay()];
+     let currentHour = date.getHours();
     if (currentHour < 10) {
         currentHour = `0${currentHour}`;
     }
@@ -40,26 +51,10 @@ function formatDate(date) {
     if (currentMinutes < 10) {
         currentMinutes = `0${currentMinutes}`;
     }
-
-    return {
-        currentDate,
-        currentMonth,
-        currentYear,
-        currentDay,
-        currentHour,
-        currentMinutes
-    };
+    return `${currentDay} at ${currentHour}:${currentMinutes}`;
 }
 
-let date = document.querySelector("#date");
 let dayTime = document.querySelector("#day-time");
-
-date.innerHTML = `${formattedDate.currentDate} ${formattedDate.currentMonth}, ${formattedDate.currentYear}`;
-dayTime.innerHTML = `${formattedDate.currentDay} at ${formattedDate.currentHour}:${formattedDate.currentMinutes}`;
-
-
-
-
 
 function changeCelcius (event) {
     event.preventDefault();
@@ -77,7 +72,7 @@ function changeFahrenheight(event) {
 
 let celciusTemp = document.querySelector("#celcius-link");
 celciusTemp.addEventListener("click", changeCelcius);
-let testCelciusTemp = 25; 
+let testCelciusTemp = 25; // will need to adjust this to match the data from the API or maybe just delete it.
 
 
 let fahrenheightTemp = document.querySelector("#fahrenheit-link");
@@ -106,6 +101,7 @@ function searchCity(event) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
     axios.get(apiUrl).then(showTemperature);
     h2.innerHTML = city;
+    console.log(apiUrl);
 }  
 
 searchWeather.addEventListener("submit", searchCity);
@@ -117,6 +113,7 @@ function findPosition(position) {
         let longitude = position.coords.longitude;
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
         axios.get(apiUrl).then(showTemperature);
+        console.log(apiUrl);
 
     });
 }
@@ -129,12 +126,19 @@ function showTemperature (response) {
     h2.innerHTML = `${response.data.name}`;
     maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`;
     minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}°C`;
+    
+    date.innerHTML = formatDate(new Date(response.data.dt * 1000));
+    dayTime.innerHTML = formatDayTime(new Date(response.data.dt * 1000));
+   
     let visibilityData = response.data.visibility / 1000;
     let visibilityKm = visibilityData.toFixed(2); // show visibility in 2 decimal places
     visibility.innerHTML = `${visibilityKm} km`;
     humidity.innerHTML = `${response.data.main.humidity} %`;
     windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
 }
+
+
+
 //was going to try and put in an alert popup with the weather conditions but might do it later. 
 //function alertPopup(response) {
 //    let conditions = response.data.weather[0].main;
