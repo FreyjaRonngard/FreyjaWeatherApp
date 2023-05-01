@@ -56,32 +56,36 @@ function formatDayTime(date) {
 
 let dayTime = document.querySelector("#day-time");
 
-function changeCelcius (event) {
+//function listenForClicks() {
+ //   document.addEventListener("click")} // not finished yet need to check
+
+let units = "metric"; // default to Celsius
+let celsiusLink = document.querySelector("#celcius-link");
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+
+function changeUnits(event) {
     event.preventDefault();
-    let tempC = document.querySelector("#temp");
-    tempC.innerHTML = 25 ;
+    let unitLink = event.target;
+    let linkID = unitLink.getAttribute ('id')
+      if (linkID === 'celcius-link') {
+    units = "metric";
+  } else if (linkID === 'fahrenheit-link') {
+    units = "imperial";
+  }
+  
 }
+ 
 
-function changeFahrenheight(event) {
-    event.preventDefault();
-    let tempF = document.querySelector("#temp");
-    let testCelciusTemp = 25; 
-    tempF.innerHTML = Math.round((testCelciusTemp * 9)/5+32);
-}
+console.log(celsiusLink); // will print out the element with id="celcius-link"
+celsiusLink.addEventListener("click", changeUnits);
 
 
-let celciusTemp = document.querySelector("#celcius-link");
-celciusTemp.addEventListener("click", changeCelcius);
-let testCelciusTemp = 25; // will need to adjust this to match the data from the API or maybe just delete it.
+console.log(fahrenheitLink); // will print out the element with id="fahrenheit-link"
+fahrenheitLink.addEventListener("click", changeUnits);
 
-
-let fahrenheightTemp = document.querySelector("#fahrenheit-link");
-fahrenheightTemp.addEventListener("click", changeFahrenheight);
-
-//Challenge API wk 5
 
 let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-let units = "metric";
+
 let locationInput = document.querySelector("#locationInput");
 let h2 = document.querySelector("h2");
 let temper = document.querySelector("#temp");
@@ -92,7 +96,7 @@ let humidity = document.querySelector("#current-humidity");
 let windSpeed = document.querySelector("#current-windSpeed");
 let maxTemp = document.querySelector("#maxTemp");
 let minTemp = document.querySelector("#minTemp");
-let alert = document.getElementById("alertButton");
+//let alert = document.getElementById("alertButton");
 
 
 function searchCity(event) {
@@ -121,7 +125,7 @@ function findPosition(position) {
 nearMeButton.addEventListener("click", findPosition);
 
 function showTemperature (response) {
- let temperature = Math.round(response.data.main.temp);
+    let temperature = Math.round(response.data.main.temp);
     temper.innerHTML = `${temperature}`;
     h2.innerHTML = `${response.data.name}`;
     maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`;
