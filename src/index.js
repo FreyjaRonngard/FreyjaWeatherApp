@@ -63,26 +63,32 @@ let units = "metric"; // default to Celsius
 let celsiusLink = document.querySelector("#celcius-link");
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 
-function changeUnits(event) {
+function showCelsius(event) {
     event.preventDefault();
-    let unitLink = event.target;
-    let linkID = unitLink.getAttribute ('id')
-      if (linkID === 'celcius-link') {
-    units = "metric";
-  } else if (linkID === 'fahrenheit-link') {
-    units = "imperial";
-  }
-  
+    celsiusLink.classList.add("active");
+    fahrenheitLink.classList.remove("active")
+    let temper = document.querySelector("#temp");
+    let tempC = Math.round(response.data.main.temp);
+     temper.innerHTML = tempC
 }
- 
+
+function showFahrenheit(event) {
+    event.preventDefault();
+    celsiusLink.classList.remove("active");
+    fahrenheitLink.classList.add("active")
+    let temper = document.querySelector("#temp");
+    let tempF = Math.round[((response.data.main.temp)*9)/5+32];
+     temper.innerHTML = tempF
+}
+
 
 console.log(celsiusLink); // will print out the element with id="celcius-link"
-celsiusLink.addEventListener("click", changeUnits);
+celsiusLink.addEventListener("click", showCelsius);
 
 
 console.log(fahrenheitLink); // will print out the element with id="fahrenheit-link"
-fahrenheitLink.addEventListener("click", changeUnits);
-
+fahrenheitLink.addEventListener("click", showFahrenheit);
+/// need to come back to fix here. 
 
 let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
 
@@ -124,7 +130,8 @@ function findPosition(position) {
 
 nearMeButton.addEventListener("click", findPosition);
 
-function showTemperature (response) {
+function showTemperature(response) {
+    console.log(response.data);
     let temperature = Math.round(response.data.main.temp);
     temper.innerHTML = `${temperature}`;
     h2.innerHTML = `${response.data.name}`;
@@ -143,13 +150,15 @@ function showTemperature (response) {
 
 
 
-//was going to try and put in an alert popup with the weather conditions but might do it later. 
+//was going to try and put in an alert popup with the weather conditions but might do it later.
 //function alertPopup(response) {
 //    let conditions = response.data.weather[0].main;
 //    window.alert(`It is ${conditions}`);
 //}
-//alert.addEventListener("click", function() { 
+//alert.addEventListener("click", function() {
 //    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${locationInput.value}&appid=${apiKey}&units=${units}`)
 //    .then(alertPopup)
 //});
+
+
 
