@@ -102,6 +102,7 @@ let humidity = document.querySelector("#current-humidity");
 let windSpeed = document.querySelector("#current-windSpeed");
 let maxTemp = document.querySelector("#maxTemp");
 let minTemp = document.querySelector("#minTemp");
+let icon = document.querySelector("#icon");
 //let alert = document.getElementById("alertButton");
 
 
@@ -115,6 +116,7 @@ function searchCity(event) {
 }  
 
 searchWeather.addEventListener("submit", searchCity);
+searchCity("Melbourne");
     
 function findPosition(position) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -146,6 +148,7 @@ function showTemperature(response) {
     visibility.innerHTML = `${visibilityKm} km`;
     humidity.innerHTML = `${response.data.main.humidity} %`;
     windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
+    icon.setAttribute("src",`https://openweathermap.org/img/wn/${response.data.weather[0].icon}d@2x.png`) ; // not working!!! whyy???
 }
 
 
