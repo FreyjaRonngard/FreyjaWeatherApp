@@ -61,7 +61,7 @@ let dayTime = document.querySelector("#day-time");
 let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
 let cityInput = document.querySelector("#locationInput");
 let h2 = document.querySelector("h2");
-let temper = document.querySelector("#temp");
+let temperature = document.querySelector("#temp");
 let searchWeather = document.querySelector("#search-weather");
 let nearMeButton = document.querySelector("#buttonNearMe")
 let visibility = document.querySelector("#current-visibility");
@@ -76,8 +76,9 @@ let tempC = null;
 //let alert = document.getElementById("alertButton"); //come back here
 
 function showTemperature(response) {
+    console.log(response.data);
     tempC = Math.round(response.data.main.temp);
-    temper.innerHTML = tempC;
+    temperature.innerHTML = tempC;
     h2.innerHTML = response.data.name;
     maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`; // need to apply to change unit of measurement from C to F somehow
     minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}°C`;
@@ -90,7 +91,8 @@ function showTemperature(response) {
     visibility.innerHTML = `${visibilityKm} km`;
     humidity.innerHTML = `${response.data.main.humidity} %`;
     windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
-    icon.setAttribute("src",`https://openweathermap.org/img/wn/${response.data.weather[0].icon}d@2x.png`) ; // not working!!! whyy???
+    icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
+    icon.setAttribute("alt", response.data.weather[0].description);
 }
 
 
@@ -99,17 +101,14 @@ function search(city) {
     axios.get(apiUrl).then(showTemperature);
     console.log(apiUrl);
 }  
-
 function formSubmit(event) {
     event.preventDefault();
     search(cityInput.value)
 }
 searchWeather.addEventListener("submit", formSubmit);
 
-    
 function findPosition(position) {
     navigator.geolocation.getCurrentPosition(function (position) {
-    
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
@@ -117,34 +116,30 @@ function findPosition(position) {
         console.log(apiUrl);
     });
 }
-
 nearMeButton.addEventListener("click", findPosition);
-
 
 
 function showCelsius(event) {
     event.preventDefault();
     celsiusLink.classList.add("active");
     fahrenheitLink.classList.remove("active")
-    temper.innerHTML = tempC
+    temperature.innerHTML = tempC
 }
-
 function showFahrenheit(event) {
     event.preventDefault();
     celsiusLink.classList.remove("active");
     fahrenheitLink.classList.add("active")
     let tempF = Math.round((tempC*9)/5+32);
-    temper.innerHTML = tempF
+    temperature.innerHTML = tempF
 }
 
 
 let celsiusLink = document.querySelector("#celcius-link");
 celsiusLink.addEventListener("click", showCelsius);
 
-
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", showFahrenheit);
-/// I think it's now fixed!! 
+// will need to apply more to the rest of the temperature.
 
 search("Melbourne");
 
