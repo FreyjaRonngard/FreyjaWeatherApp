@@ -58,7 +58,7 @@ height: 65px;
     color: gray;
     text-decoration: none;
 }
-.changeMetric:active {
+.weather-temperature .active {
     color: black;
     cursor: pointer;
     font-weight: bold;

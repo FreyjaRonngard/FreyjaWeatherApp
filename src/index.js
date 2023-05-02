@@ -56,43 +56,10 @@ function formatDayTime(date) {
 
 let dayTime = document.querySelector("#day-time");
 
-//function listenForClicks() {
- //   document.addEventListener("click")} // not finished yet need to check
-
-let units = "metric"; // default to Celsius
-let celsiusLink = document.querySelector("#celcius-link");
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-
-function showCelsius(event) {
-    event.preventDefault();
-    celsiusLink.classList.add("active");
-    fahrenheitLink.classList.remove("active")
-    let temper = document.querySelector("#temp");
-    let tempC = Math.round(response.data.main.temp);
-     temper.innerHTML = tempC
-}
-
-function showFahrenheit(event) {
-    event.preventDefault();
-    celsiusLink.classList.remove("active");
-    fahrenheitLink.classList.add("active")
-    let temper = document.querySelector("#temp");
-    let tempF = Math.round[((response.data.main.temp)*9)/5+32];
-     temper.innerHTML = tempF
-}
-
-
-console.log(celsiusLink); // will print out the element with id="celcius-link"
-celsiusLink.addEventListener("click", showCelsius);
-
-
-console.log(fahrenheitLink); // will print out the element with id="fahrenheit-link"
-fahrenheitLink.addEventListener("click", showFahrenheit);
-/// need to come back to fix here. 
+// Day and Time functions above ^^ API calls below 
 
 let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-
-let locationInput = document.querySelector("#locationInput");
+let cityInput = document.querySelector("#locationInput");
 let h2 = document.querySelector("h2");
 let temper = document.querySelector("#temp");
 let searchWeather = document.querySelector("#search-weather");
@@ -103,41 +70,16 @@ let windSpeed = document.querySelector("#current-windSpeed");
 let maxTemp = document.querySelector("#maxTemp");
 let minTemp = document.querySelector("#minTemp");
 let icon = document.querySelector("#icon");
-//let alert = document.getElementById("alertButton");
+let units = "metric"; // default to Celsius
+let tempC = null;
 
-
-function searchCity(event) {
-    event.preventDefault();
-    let city = locationInput.value; // was wanting to use`${response.data.name}`; for the display city name // match up entered city to look up cities to find the API. 
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-    axios.get(apiUrl).then(showTemperature);
-    h2.innerHTML = city;
-    console.log(apiUrl);
-}  
-
-searchWeather.addEventListener("submit", searchCity);
-searchCity("Melbourne");
-    
-function findPosition(position) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-    
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
-        axios.get(apiUrl).then(showTemperature);
-        console.log(apiUrl);
-
-    });
-}
-
-nearMeButton.addEventListener("click", findPosition);
+//let alert = document.getElementById("alertButton"); //come back here
 
 function showTemperature(response) {
-    console.log(response.data);
-    let temperature = Math.round(response.data.main.temp);
-    temper.innerHTML = `${temperature}`;
-    h2.innerHTML = `${response.data.name}`;
-    maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`;
+    tempC = Math.round(response.data.main.temp);
+    temper.innerHTML = tempC;
+    h2.innerHTML = response.data.name;
+    maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`; // need to apply to change unit of measurement from C to F somehow
     minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}°C`;
     
     date.innerHTML = formatDate(new Date(response.data.dt * 1000));
@@ -152,6 +94,59 @@ function showTemperature(response) {
 }
 
 
+function search(city) {
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+    axios.get(apiUrl).then(showTemperature);
+    console.log(apiUrl);
+}  
+
+function formSubmit(event) {
+    event.preventDefault();
+    search(cityInput.value)
+}
+searchWeather.addEventListener("submit", formSubmit);
+
+    
+function findPosition(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+    
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+        axios.get(apiUrl).then(showTemperature);
+        console.log(apiUrl);
+    });
+}
+
+nearMeButton.addEventListener("click", findPosition);
+
+
+
+function showCelsius(event) {
+    event.preventDefault();
+    celsiusLink.classList.add("active");
+    fahrenheitLink.classList.remove("active")
+    temper.innerHTML = tempC
+}
+
+function showFahrenheit(event) {
+    event.preventDefault();
+    celsiusLink.classList.remove("active");
+    fahrenheitLink.classList.add("active")
+    let tempF = Math.round((tempC*9)/5+32);
+    temper.innerHTML = tempF
+}
+
+
+let celsiusLink = document.querySelector("#celcius-link");
+celsiusLink.addEventListener("click", showCelsius);
+
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", showFahrenheit);
+/// I think it's now fixed!! 
+
+search("Melbourne");
 
 //was going to try and put in an alert popup with the weather conditions but might do it later.
 //function alertPopup(response) {
@@ -159,7 +154,7 @@ function showTemperature(response) {
 //    window.alert(`It is ${conditions}`);
 //}
 //alert.addEventListener("click", function() {
-//    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${locationInput.value}&appid=${apiKey}&units=${units}`)
+//    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=${units}`)
 //    .then(alertPopup)
 //});
 
