@@ -62,5 +62,10 @@ height: 65px;
     color: black;
     cursor: pointer;
     font-weight: bold;
-    
+}
+.description {
+    text-transform: capitalize;
+    color: rgb(39, 73, 107);
+    font-size: larger;
+
 }

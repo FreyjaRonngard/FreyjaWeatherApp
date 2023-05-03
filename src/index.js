@@ -63,6 +63,7 @@ let cityInput = document.querySelector("#locationInput");
 let h2 = document.querySelector("h2");
 let temperature = document.querySelector("#temp");
 let searchWeather = document.querySelector("#search-weather");
+let description = document.querySelector("#weather-description");
 let nearMeButton = document.querySelector("#buttonNearMe")
 let visibility = document.querySelector("#current-visibility");
 let humidity = document.querySelector("#current-humidity");
@@ -72,6 +73,8 @@ let minTemp = document.querySelector("#minTemp");
 let icon = document.querySelector("#icon");
 let units = "metric"; // default to Celsius
 let tempC = null;
+let tempCMax = null;
+let tempCMin = null;
 
 //let alert = document.getElementById("alertButton"); //come back here
 
@@ -80,12 +83,15 @@ function showTemperature(response) {
     tempC = Math.round(response.data.main.temp);
     temperature.innerHTML = tempC;
     h2.innerHTML = response.data.name;
-    maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}°C`; // need to apply to change unit of measurement from C to F somehow
-    minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}°C`;
+    tempCMax = Math.round(response.data.main.temp_max);
+    maxTemp.innerHTML = `${tempCMax}°C`; // need to apply to change unit of measurement from C to F 
+    tempCMin = Math.round(response.data.main.temp_min);
+    minTemp.innerHTML = `${tempCMin}°C`;
     
     date.innerHTML = formatDate(new Date(response.data.dt * 1000));
     dayTime.innerHTML = formatDayTime(new Date(response.data.dt * 1000));
    
+    description.innerHTML = response.data.weather[0].description;
     let visibilityData = response.data.visibility / 1000;
     let visibilityKm = visibilityData.toFixed(2); // show visibility in 2 decimal places
     visibility.innerHTML = `${visibilityKm} km`;
@@ -122,8 +128,8 @@ nearMeButton.addEventListener("click", findPosition);
 function showCelsius(event) {
     event.preventDefault();
     celsiusLink.classList.add("active");
-    fahrenheitLink.classList.remove("active")
-    temperature.innerHTML = tempC
+    fahrenheitLink.classList.remove("active");
+    temperature.innerHTML = tempC;
 }
 function showFahrenheit(event) {
     event.preventDefault();
@@ -131,6 +137,11 @@ function showFahrenheit(event) {
     fahrenheitLink.classList.add("active")
     let tempF = Math.round((tempC*9)/5+32);
     temperature.innerHTML = tempF
+    //
+    let tempFMax = Math.round((tempCMax*9)/5+32);
+    maxTemp.innerHTML = `${tempFMax}°F`; // need to apply to change unit of measurement from C to F 
+    let tempFMin = Math.round((tempCMin * 9) / 5 + 32);
+    minTemp.innerHTML = `${tempFMin}°F`;
 }
 
 
