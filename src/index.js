@@ -130,6 +130,8 @@ function showCelsius(event) {
     celsiusLink.classList.add("active");
     fahrenheitLink.classList.remove("active");
     temperature.innerHTML = tempC;
+    maxTemp.innerHTML = `${tempCMax}°C`; // need to apply to change unit of measurement from C to F 
+    minTemp.innerHTML = `${tempCMin}°C`;
 }
 function showFahrenheit(event) {
     event.preventDefault();
@@ -137,7 +139,7 @@ function showFahrenheit(event) {
     fahrenheitLink.classList.add("active")
     let tempF = Math.round((tempC*9)/5+32);
     temperature.innerHTML = tempF
-    //
+    //need to find a way to revert it back again to c
     let tempFMax = Math.round((tempCMax*9)/5+32);
     maxTemp.innerHTML = `${tempFMax}°F`; // need to apply to change unit of measurement from C to F 
     let tempFMin = Math.round((tempCMin * 9) / 5 + 32);
