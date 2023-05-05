@@ -34,11 +34,9 @@ height: 65px;
     padding-left: 40px;
 }
 .card{
-    padding: 20px;
+    padding: 20px 35px 20px 35px;
 }
-.card-body {
-    padding-bottom: 10px;
-}
+
 .card-group {
     text-align: center;
 }
@@ -54,7 +52,6 @@ height: 65px;
 }
 .bold-temperature {
     font-weight: bold;
-    font-stretch:ultra-expanded;
 }
 .card-body.card-text {
     font-stretch: ultra-expanded;
