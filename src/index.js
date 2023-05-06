@@ -28,11 +28,7 @@ function formatDate(date) {
 
 let date = document.querySelector("#date");
 
-
-
-let formattedDayTime = formatDayTime(dateNow); // this might be obsolete
-function formatDayTime(date) {
-    let days = [
+let days = [
         "Sun",
         "Mon",
         "Tue",
@@ -42,6 +38,9 @@ function formatDayTime(date) {
         "Sat"
     ];
 
+let formattedDayTime = formatDayTime(dateNow); // this might be obsolete
+function formatDayTime(date) {
+    
     let currentDay = days[date.getDay()];
      let currentHour = date.getHours();
     if (currentHour < 10) {
@@ -75,8 +74,36 @@ let units = "metric"; // default to Celsius
 let tempC = null;
 let tempCMax = null;
 let tempCMin = null;
+let weatherForecast = document.querySelector("#weather-forecasts");
+let forecastHtml = "";
 
-//let alert = document.getElementById("alertButton"); //come back here
+function showForecast() {
+    days.forEach (function (day) {
+        forecastHtml = forecastHtml + `
+     <div class="col-2">
+        <div class="card-group">
+            <div class="card card-weather card-body ">
+                <h5 class="card-title ">
+                    <img src="media/cloudysun-icon.png" alt="" class="forecast-icon">
+                </h5>
+                <h5 class="forecast-day">
+                    ${day}
+                </h5>
+                    <p class="card-text forecast-temps">
+                        <strong class="bold-temperature forecast-max"> 
+                            17° 
+                        </strong>
+                        <span class="forecast-min">
+                            | 9° 
+                        </span>
+                    </p>
+            </div>
+        </div>
+    </div>`;
+    });
+    weatherForecast.innerHTML = forecastHtml ;
+
+}
 
 function showTemperature(response) {
     console.log(response.data);
@@ -155,6 +182,7 @@ fahrenheitLink.addEventListener("click", showFahrenheit);
 // will need to apply more to the rest of the temperature.
 
 search("Melbourne");
+showForecast();
 
 //was going to try and put in an alert popup with the weather conditions but might do it later.
 //function alertPopup(response) {
