@@ -145,8 +145,8 @@ searchWeather.addEventListener("submit", formSubmit);
 
 function getWeatherForecast(coordinates) {
     console.log(coordinates)
-    let apiKey = `cd173a006b0e51dac58c6d8064c94178`;
-    let apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
+    let apiKey = `83d754d0e41cf2t0a70abc3ofd8492c8`;
+    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&key=${apiKey}&units=${units}`// this is the open weather one`https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
     axios.get(apiUrl).then(showForecast);
 }
 
