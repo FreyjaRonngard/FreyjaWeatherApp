@@ -78,8 +78,8 @@ let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
 
 function showForecast(response) {
-    console.log(response.data);
-    days.forEach (function (day) {
+    let dailyForecast = response.data.daily ;
+    days.forEach (function (daysForecast) {
         forecastHtml = forecastHtml + `
      <div class="col-2">
         <div class="card-group">
@@ -88,14 +88,14 @@ function showForecast(response) {
                     <img src="media/cloudysun-icon.png" alt="" class="forecast-icon">
                 </h5>
                 <h5 class="forecast-day">
-                    ${day}
+                    ${daysForecast}
                 </h5>
                     <p class="card-text forecast-temps">
                         <strong class="bold-temperature forecast-max"> 
-                            17° 
+                            ${Math.round(daysForecast.temp.max)}° 
                         </strong>
                         <span class="forecast-min">
-                            | 9° 
+                            | ${Math.round(daysForecast.temp.min)}° 
                         </span>
                     </p>
             </div>
