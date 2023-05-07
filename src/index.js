@@ -77,30 +77,38 @@ let tempCMin = null;
 let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
 
+function formatDay(timestamp) {
+    let date = new Date(timestamp * 1000);
+    let dayIndex = date.getDay(); // Get day index (0-6) of timestamp
+    return days[dayIndex];
+}
+
+
 function showForecast(response) {
     let dailyForecast = response.data.daily ;
-    days.forEach (function (daysForecast) {
+    dailyForecast.forEach (function (daysForecast, index) {
+    if ( index < 6 ) {  // only show next 6 days (starting from tomorrow)
         forecastHtml = forecastHtml + `
      <div class="col-2">
         <div class="card-group">
             <div class="card card-weather card-body ">
                 <h5 class="card-title ">
-                    <img src="media/cloudysun-icon.png" alt="" class="forecast-icon">
+                    <img src="${daysForecast.condition.icon_url}" alt="${daysForecast.condition.description}" class="forecast-icon">
                 </h5>
                 <h5 class="forecast-day">
-                    ${daysForecast}
+                    ${formatDay(daysForecast.time)}
                 </h5>
                     <p class="card-text forecast-temps">
                         <strong class="bold-temperature forecast-max"> 
-                            ${Math.round(daysForecast.temp.max)}° 
+                            ${Math.round(daysForecast.temperature.maximum)}° 
                         </strong>
                         <span class="forecast-min">
-                            | ${Math.round(daysForecast.temp.min)}° 
+                            | ${Math.round(daysForecast.temperature.minimum)}° 
                         </span>
                     </p>
             </div>
         </div>
-    </div>`;
+    </div>`; }
     });
     weatherForecast.innerHTML = forecastHtml ;
 
@@ -193,16 +201,6 @@ fahrenheitLink.addEventListener("click", showFahrenheit);
 
 search("Melbourne");
 
-
-//was going to try and put in an alert popup with the weather conditions but might do it later.
-//function alertPopup(response) {
-//    let conditions = response.data.weather[0].main;
-//    window.alert(`It is ${conditions}`);
-//}
-//alert.addEventListener("click", function() {
-//    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=${units}`)
-//    .then(alertPopup)
-//});
 
 
 
