@@ -77,7 +77,8 @@ let tempCMin = null;
 let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
 
-function showForecast() {
+function showForecast(response) {
+    console.log(response.data);
     days.forEach (function (day) {
         forecastHtml = forecastHtml + `
      <div class="col-2">
@@ -126,6 +127,7 @@ function showTemperature(response) {
     windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
     icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
     icon.setAttribute("alt", response.data.weather[0].description);
+    getWeatherForecast(response.data.coord);
 }
 
 
@@ -139,6 +141,14 @@ function formSubmit(event) {
     search(cityInput.value)
 }
 searchWeather.addEventListener("submit", formSubmit);
+//come back here
+
+function getWeatherForecast(coordinates) {
+    console.log(coordinates)
+    let apiKey = `cd173a006b0e51dac58c6d8064c94178`;
+    let apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
+    axios.get(apiUrl).then(showForecast);
+}
 
 function findPosition(position) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -182,7 +192,7 @@ fahrenheitLink.addEventListener("click", showFahrenheit);
 // will need to apply more to the rest of the temperature.
 
 search("Melbourne");
-showForecast();
+
 
 //was going to try and put in an alert popup with the weather conditions but might do it later.
 //function alertPopup(response) {
