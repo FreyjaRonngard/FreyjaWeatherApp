@@ -57,7 +57,7 @@ let dayTime = document.querySelector("#day-time");
 
 // Day and Time functions above ^^ API calls below 
 
-let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+let apiKey = `83d754d0e41cf2t0a70abc3ofd8492c8`; // removed old open weather app API key "5f472b7acba333cd8a035ea85a0d4d4c";
 let cityInput = document.querySelector("#locationInput");
 let h2 = document.querySelector("h2");
 let temperature = document.querySelector("#temp");
@@ -78,8 +78,8 @@ let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
 
 function formatDay(timestamp) {
-    let date = new Date(timestamp * 1000);
-    let dayIndex = date.getDay(); // Get day index (0-6) of timestamp
+    let dateIndex = new Date(timestamp * 1000);
+    let dayIndex = dateIndex.getDay(); // Get day index (0-6) of timestamp
     return days[dayIndex];
 }
 
@@ -116,31 +116,31 @@ function showForecast(response) {
 
 function showTemperature(response) {
     console.log(response.data);
-    tempC = Math.round(response.data.main.temp);
+    tempC = Math.round(response.data.temperature.current);
     temperature.innerHTML = tempC;
-    h2.innerHTML = response.data.name;
-    tempCMax = Math.round(response.data.main.temp_max);
+    h2.innerHTML = response.data.city;
+    tempCMax = Math.round(response.data.temperature.maximum);
     maxTemp.innerHTML = `${tempCMax}°C`; // need to apply to change unit of measurement from C to F 
-    tempCMin = Math.round(response.data.main.temp_min);
+    tempCMin = Math.round(response.data.temperature.minimum);
     minTemp.innerHTML = `${tempCMin}°C`;
     
     date.innerHTML = formatDate(new Date(response.data.dt * 1000));
     dayTime.innerHTML = formatDayTime(new Date(response.data.dt * 1000));
    
-    description.innerHTML = response.data.weather[0].description;
+    description.innerHTML = response.data.condition.description;
     let visibilityData = response.data.visibility / 1000;
-    let visibilityKm = visibilityData.toFixed(2); // show visibility in 2 decimal places
+    let visibilityKm = visibilityData.toFixed(2); // not available now in the she codes data
     visibility.innerHTML = `${visibilityKm} km`;
-    humidity.innerHTML = `${response.data.main.humidity} %`;
-    windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
-    icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
-    icon.setAttribute("alt", response.data.weather[0].description);
-    getWeatherForecast(response.data.coord);
+    humidity.innerHTML = `${response.data.temperature.humidity} %`;
+    windSpeed.innerHTML = `${response.data.wind.speed} m/s`;
+    icon.setAttribute("src", response.data.condition.icon_url); //  working!!! but would like to update the icons soon `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png
+    icon.setAttribute("alt", response.data.condition.description);
+    getWeatherForecast(response.data.coordinates);
 }
 
 
 function search(city) {
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;  // removed old open weather apiurl `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
     axios.get(apiUrl).then(showTemperature);
     console.log(apiUrl);
 }  
@@ -154,15 +154,15 @@ searchWeather.addEventListener("submit", formSubmit);
 function getWeatherForecast(coordinates) {
     console.log(coordinates)
     let apiKey = `83d754d0e41cf2t0a70abc3ofd8492c8`;
-    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&key=${apiKey}&units=${units}`// this is the open weather one`https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
+    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&key=${apiKey}&units=${units}`;// this is the open weather one`https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
     axios.get(apiUrl).then(showForecast);
 }
 
 function findPosition(position) {
     navigator.geolocation.getCurrentPosition(function (position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+        let latitude = position.coordinates.latitude;
+        let longitude = position.coordinates.longitude;
+        let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}&units=${units}`;  // removed the open weather api`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
         axios.get(apiUrl).then(showTemperature);
         console.log(apiUrl);
     });
