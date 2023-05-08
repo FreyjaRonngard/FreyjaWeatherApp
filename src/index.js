@@ -1,5 +1,4 @@
 
-
 let dateNow = new Date();
 let formattedDate = formatDate(dateNow); // this might be obsolete
 function formatDate(date) {
@@ -70,6 +69,7 @@ let windSpeed = document.querySelector("#current-windSpeed");
 let maxTemp = document.querySelector("#maxTemp");
 let minTemp = document.querySelector("#minTemp");
 let icon = document.querySelector("#icon");
+let iconForecast = document.querySelector ("#icon-forecast")
 let units = "metric"; // default to Celsius
 let tempC = null;
 let tempCMax = null;
@@ -77,30 +77,37 @@ let tempCMin = null;
 let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
 
+function formatDay(timestamp) {
+    let date = new Date(timestamp * 1000);
+    let dayIndex = date.getDay(); // Get day index (0-6) of timestamp
+    return days[dayIndex];
+}
+
 function showForecast(response) {
-    console.log(response.data);
-    days.forEach (function (day) {
+    let dailyForecast= response.data.daily;
+    dailyForecast.forEach (function (daysForecast, index) {
+    if ( index < 6 ) {  // only show next 6 days (starting from tomorrow)
         forecastHtml = forecastHtml + `
      <div class="col-2">
         <div class="card-group">
             <div class="card card-weather card-body ">
                 <h5 class="card-title ">
-                    <img src="media/cloudysun-icon.png" alt="" class="forecast-icon">
+                    <img src= "https://openweathermap.org/img/wn/${daysForecast.weather[0].icon}@2x.png" alt="" class="forecast-icon" id= "icon-forecast">
                 </h5>
                 <h5 class="forecast-day">
-                    ${day}
+                    ${formatDay(daysForecast.dt)}
                 </h5>
                     <p class="card-text forecast-temps">
                         <strong class="bold-temperature forecast-max"> 
-                            17° 
+                            ${Math.round(daysForecast.temp.max)}° 
                         </strong>
                         <span class="forecast-min">
-                            | 9° 
+                            | ${Math.round(daysForecast.temp.min)}° 
                         </span>
                     </p>
             </div>
         </div>
-    </div>`;
+    </div>`;}
     });
     weatherForecast.innerHTML = forecastHtml ;
 
@@ -128,6 +135,7 @@ function showTemperature(response) {
     icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
     icon.setAttribute("alt", response.data.weather[0].description);
     getWeatherForecast(response.data.coord);
+    
 }
 
 
