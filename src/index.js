@@ -79,14 +79,15 @@ let forecastHtml = "";
 
 function formatDay(timestamp) {
     let date = new Date(timestamp * 1000);
-    let dayIndex = date.getDay(); // Get day index (0-6) of timestamp
+    let dayIndex = date.getDay(); // Get day index (0-7) of timestamp
     return days[dayIndex];
 }
 
 function showForecast(response) {
-    let dailyForecast= response.data.daily;
+    let dailyForecast = response.data.daily;
+    forecastHtml = ""; // clear previous forecast cards
     dailyForecast.forEach (function (daysForecast, index) {
-    if ( index < 6 ) {  // only show next 6 days (starting from tomorrow)
+    if ( index > 0 && index < 7 ) {  // only show next 6 days (starting from tomorrow)
         forecastHtml = forecastHtml + `
      <div class="col-2">
         <div class="card-group">
@@ -109,12 +110,11 @@ function showForecast(response) {
         </div>
     </div>`;}
     });
-    weatherForecast.innerHTML = forecastHtml ;
+    weatherForecast.innerHTML = forecastHtml ; // set the HTML of the forecast container
 
 }
 
 function showTemperature(response) {
-    console.log(response.data);
     tempC = Math.round(response.data.main.temp);
     temperature.innerHTML = tempC;
     h2.innerHTML = response.data.name;
