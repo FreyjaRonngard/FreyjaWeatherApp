@@ -76,6 +76,10 @@ let tempCMax = null;
 let tempCMin = null;
 let weatherForecast = document.querySelector("#weather-forecasts");
 let forecastHtml = "";
+let forecastMax = document.querySelector("#forecast-max");
+let forecastMin = document.querySelector("#forecast-min");
+let tempForecastCMin = null;
+let tempForecastCMax = null;
 
 function formatDay(timestamp) {
     let date = new Date(timestamp * 1000);
@@ -86,8 +90,11 @@ function formatDay(timestamp) {
 function showForecast(response) {
     let dailyForecast = response.data.daily;
     forecastHtml = ""; // clear previous forecast cards
+    
     dailyForecast.forEach (function (daysForecast, index) {
     if ( index > 0 && index < 7 ) {  // only show next 6 days (starting from tomorrow)
+        tempForecastCMin = Math.round(daysForecast.temp.min);
+        tempForecastCMax = Math.round(daysForecast.temp.max);
         forecastHtml = forecastHtml + `
      <div class="col-2">
         <div class="card-group">
@@ -99,11 +106,11 @@ function showForecast(response) {
                     ${formatDay(daysForecast.dt)}
                 </h5>
                     <p class="card-text forecast-temps">
-                        <strong class="bold-temperature forecast-max"> 
-                            ${Math.round(daysForecast.temp.max)}° 
+                        <strong class="bold-temperature forecast-max" id= "forecast-max"> 
+                            ${tempForecastCMax}° 
                         </strong>
-                        <span class="forecast-min">
-                            | ${Math.round(daysForecast.temp.min)}° 
+                        <span class="forecast-min" id= "forecast-min">
+                            | ${tempForecastCMin}° 
                         </span>
                     </p>
             </div>
@@ -177,6 +184,8 @@ function showCelsius(event) {
     temperature.innerHTML = tempC;
     maxTemp.innerHTML = `${tempCMax}°C`; // need to apply to change unit of measurement from C to F 
     minTemp.innerHTML = `${tempCMin}°C`;
+    forecastMax.innerHTML = `${tempForecastCMax}°`;
+    forecastMin.innerHTML = `${tempForecastCMin}°`;
 }
 function showFahrenheit(event) {
     event.preventDefault();
@@ -184,11 +193,14 @@ function showFahrenheit(event) {
     fahrenheitLink.classList.add("active")
     let tempF = Math.round((tempC*9)/5+32);
     temperature.innerHTML = tempF
-    //need to find a way to revert it back again to c
     let tempFMax = Math.round((tempCMax*9)/5+32);
     maxTemp.innerHTML = `${tempFMax}°F`; // need to apply to change unit of measurement from C to F 
     let tempFMin = Math.round((tempCMin * 9) / 5 + 32);
     minTemp.innerHTML = `${tempFMin}°F`;
+    let forecastMaxF = Math.round((tempForecastCMax * 9) / 5 + 32); 
+    forecastMax.innerHTML = `${forecastMaxF}°`;
+    let forecastMinF = Math.round((tempForecastCMin * 9) / 5 + 32);
+    forecastMax.innerHTML = `${forecastMinF}°`;
 }
 
 
