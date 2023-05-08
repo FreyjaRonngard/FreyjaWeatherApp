@@ -81,6 +81,34 @@ let forecastMin = document.querySelector("#forecast-min");
 let tempForecastCMin = null;
 let tempForecastCMax = null;
 
+//// still working on
+
+function showCelsius(event) {
+    event.preventDefault();
+    celsiusLink.classList.add("click","active");
+    fahrenheitLink.classList.remove("active");
+    units = "metric";
+    showTemperature();
+    showForecast();
+}
+function showFahrenheit(event) {
+    event.preventDefault();
+    celsiusLink.classList.remove("active");
+    fahrenheitLink.classList.add("click","active")
+    units = "imperial";
+    showTemperature();
+    showForecast();
+}
+
+
+let celsiusLink = document.querySelector("#celcius-link");
+celsiusLink.addEventListener("click", showCelsius);
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", showFahrenheit);
+
+// will try to fix the farenheight and celsius conversion with the imperial metric later. Maybe they need to go in temperature section.
+
 function formatDay(timestamp) {
     let date = new Date(timestamp * 1000);
     let dayIndex = date.getDay(); // Get day index (0-7) of timestamp
@@ -142,7 +170,7 @@ function showTemperature(response) {
     icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
     icon.setAttribute("alt", response.data.weather[0].description);
     getWeatherForecast(response.data.coord);
-    
+
 }
 
 
@@ -177,38 +205,6 @@ function findPosition(position) {
 nearMeButton.addEventListener("click", findPosition);
 
 
-function showCelsius(event) {
-    event.preventDefault();
-    celsiusLink.classList.add("active");
-    fahrenheitLink.classList.remove("active");
-    temperature.innerHTML = tempC;
-    maxTemp.innerHTML = `${tempCMax}°C`; // need to apply to change unit of measurement from C to F 
-    minTemp.innerHTML = `${tempCMin}°C`;
-    forecastMax.innerHTML = `${tempForecastCMax}°`;
-    forecastMin.innerHTML = `${tempForecastCMin}°`;
-}
-function showFahrenheit(event) {
-    event.preventDefault();
-    celsiusLink.classList.remove("active");
-    fahrenheitLink.classList.add("active")
-    let tempF = Math.round((tempC*9)/5+32);
-    temperature.innerHTML = tempF
-    let tempFMax = Math.round((tempCMax*9)/5+32);
-    maxTemp.innerHTML = `${tempFMax}°F`; // need to apply to change unit of measurement from C to F 
-    let tempFMin = Math.round((tempCMin * 9) / 5 + 32);
-    minTemp.innerHTML = `${tempFMin}°F`;
-    let forecastMaxF = Math.round((tempForecastCMax * 9) / 5 + 32); 
-    forecastMax.innerHTML = `${forecastMaxF}°`;
-    let forecastMinF = Math.round((tempForecastCMin * 9) / 5 + 32);
-    forecastMax.innerHTML = `${forecastMinF}°`;
-}
 
-
-let celsiusLink = document.querySelector("#celcius-link");
-celsiusLink.addEventListener("click", showCelsius);
-
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", showFahrenheit);
-// will need to apply more to the rest of the temperature.
 
 search("Melbourne");
