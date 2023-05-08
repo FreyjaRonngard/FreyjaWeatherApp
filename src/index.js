@@ -81,33 +81,8 @@ let forecastMin = document.querySelector("#forecast-min");
 let tempForecastCMin = null;
 let tempForecastCMax = null;
 
-//// still working on
 
-function showCelsius(event) {
-    event.preventDefault();
-    celsiusLink.classList.add("click","active");
-    fahrenheitLink.classList.remove("active");
-    units = "metric";
-    showTemperature();
-    showForecast();
-}
-function showFahrenheit(event) {
-    event.preventDefault();
-    celsiusLink.classList.remove("active");
-    fahrenheitLink.classList.add("click","active")
-    units = "imperial";
-    showTemperature();
-    showForecast();
-}
-
-
-let celsiusLink = document.querySelector("#celcius-link");
-celsiusLink.addEventListener("click", showCelsius);
-
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", showFahrenheit);
-
-// will try to fix the farenheight and celsius conversion with the imperial metric later. Maybe they need to go in temperature section.
+// will try to fix the farenheight and celsius conversion with the imperial metric later....
 
 function formatDay(timestamp) {
     let date = new Date(timestamp * 1000);
@@ -203,8 +178,5 @@ function findPosition(position) {
     });
 }
 nearMeButton.addEventListener("click", findPosition);
-
-
-
 
 search("Melbourne");
