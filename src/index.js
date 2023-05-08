@@ -141,7 +141,7 @@ function showTemperature(response) {
     let visibilityKm = visibilityData.toFixed(2); // show visibility in 2 decimal places
     visibility.innerHTML = `${visibilityKm} km`;
     humidity.innerHTML = `${response.data.main.humidity} %`;
-    windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
+    windSpeed.innerHTML = `${response.data.wind.speed} m/s`;
     icon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`); //  working!!! but would like to update the icons soon
     icon.setAttribute("alt", response.data.weather[0].description);
     getWeatherForecast(response.data.coord);
